@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { CreateArticleDto } from './dto/create-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { Injectable } from "@nestjs/common";
+import { CreateArticleDto } from "./dto/create-article.dto";
+import { UpdateArticleDto } from "./dto/update-article.dto";
+import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
 export class ArticlesService {
@@ -19,7 +19,10 @@ export class ArticlesService {
     return this.prisma.article.findMany({ where: { published: false } });
   }
   findOne(id: number) {
-    return this.prisma.article.findUnique({ where: { id: id } });
+    return this.prisma.article.findUnique({
+      where: { id: id },
+      include: { author: true },
+    });
   }
 
   update(id: number, updateArticleDto: UpdateArticleDto) {
